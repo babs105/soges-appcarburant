@@ -64,7 +64,7 @@ function Navigation() {
           </li>
         )}
         <li className="nav-item">
-          <NavLink className="nav-link px-2 text-success">
+          <NavLink className="nav-link px-2 text-success" to="#">
             <i className="fa fa-upload  mr-1"></i>
             <span>Rapports</span>
           </NavLink>
