@@ -1,0 +1,120 @@
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css");
+body {
+  /* margin-top: 20px !important; */
+  /* background: #f8f8f8 !important; */
+}
+p {
+  font-size: 14px;
+  color: #262626;
+}
+.my-alert {
+  z-index: 9999 !important;
+}
+
+.my-link {
+  color: rgb(24, 23, 23);
+}
+a:link {
+  text-decoration: none;
+}
+.fa-photo {
+  opacity: 0.8;
+}
+.itemdiv {
+  width: 35px;
+  height: 35px;
+  border-radius: 3px;
+}
+.carousel .carousel-item {
+  height: 100vh;
+}
+
+.carousel-item img {
+  position: absolute;
+  object-fit: none;
+  top: 0;
+  left: 0;
+  min-height: 100vh;
+}
+.carousel-caption {
+  position: absolute;
+  top: 100px;
+  height: 200px;
+}
+.section {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+.main-heading {
+  color: rgb(108, 199, 38);
+  font-size: 26px;
+}
+.underline {
+  height: 04px;
+  width: 4rem;
+  background-color: rgb(61, 92, 38);
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.bg-c-light {
+  background-color: #f2f2f2;
+}
+
+/* .cp-pagination {
+  margin: auto;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  width: 50%;
+}
+.cp-active {
+  border: 1px solid rgb(9, 223, 98);
+  border-radius: 10%;
+  padding: 0 3px;
+  margin: 0 4px;
+  outline: none;
+}
+.cp-item {
+  border: 1px solid rgb(217, 219, 218);
+  border-radius: 10%;
+  padding: 2px 3px 3px 3px;
+  outline: none;
+} */
+.cp-pagination {
+  margin: 15px auto;
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  outline: none;
+}
+.cp-pagination > .cp-active > a {
+  background-color: #4bb543;
+  border-color: #4bb543;
+  color: #fff !important;
+}
+.cp-pagination > li > a {
+  border: 1px solid #4bb543;
+  padding: 5px 10px;
+  outline: none;
+  cursor: pointer;
+}
+.cp-pagination > .cp-active > a,
+.cp-pagination > .cp-active > span,
+.cp-pagination > .cp-active > a:hover,
+.cp-pagination > .cp-active > span:hover,
+.cp-pagination > .cp-active > a:focus,
+.cp-pagination > .cp-active > span:focus {
+  background-color: #4bb543;
+  border-color: #4bb543;
+  outline: none;
+}
+.cp-pagination > li > a,
+.cp-pagination > li > span {
+  color: #4bb543;
+}
+.cp-pagination > li:first-child > a,
+.cp-pagination > li:first-child > span,
+.cp-pagination > li:last-child > a,
+.cp-pagination > li:last-child > span {
+  border-radius: unset;
+}
