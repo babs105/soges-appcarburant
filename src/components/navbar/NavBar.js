@@ -46,7 +46,7 @@ function NavBar() {
                   onClick={() => {
                     logout();
                   }}
-                  to="#"
+                  to="/"
                 >
                   <i className=" h4 fa fa-power-off"></i>
                 </NavLink>

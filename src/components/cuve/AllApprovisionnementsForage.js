@@ -1,16 +1,21 @@
 import React, { useContext, useEffect, useState } from "react";
-import Pagination from "../../components/pagination/Pagination";
 import { Link } from "react-router-dom";
 import Search from "../../components/search/Search";
 import { TableListContext } from "../../context/TableListContext";
-import { RajoutContext } from "../../context/RajoutContext";
 import ReactPaginate from "react-paginate";
-import { RavitaillementContext } from "../../context/RavitaillementVehiculeContext";
 import MenuCuveMobile from "./MenuCuveMobile";
 import { RavitaillementForageContext } from "../../context/RavitaillementForageContext";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import ReactExport from "react-data-export";
+const ExcelFile = ReactExport.ExcelFile;
+const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+
 function AllApprovisionnementsForage() {
   const { ravitaillementForages } = useContext(RavitaillementForageContext);
   const { logging, findKey, search, setFindKey } = useContext(TableListContext);
+
+  const [exporData, setExportData] = useState([]);
   const [pagination, setPagination] = useState({
     data: [],
     offset: 0,
@@ -18,11 +23,174 @@ function AllApprovisionnementsForage() {
     pageCount: 0,
     currentData: [],
   });
+
+  const DataSet = [
+    {
+      columns: [
+        {
+          title: " N°",
+          style: {
+            font: { sz: "18", bold: true, color: { rgb: "ffffff" } },
+            fill: { patternType: "solid", fgColor: { rgb: "eb1207" } },
+            border: {
+              top: { style: "medium" },
+              bottom: { style: "medium" },
+              right: { style: "medium" },
+              left: { style: "medium" },
+            },
+            alignment: { horizontal: "center" },
+          },
+          width: { wpx: 125 },
+        }, // width in pixels
+        {
+          title: "DATE HEURE",
+          style: {
+            font: { sz: "18", bold: true, color: { rgb: "ffffff" } },
+            fill: { patternType: "solid", fgColor: { rgb: "eb1207" } },
+            border: {
+              top: { style: "medium" },
+              bottom: { style: "medium" },
+              right: { style: "medium" },
+              left: { style: "medium" },
+            },
+            alignment: { horizontal: "center" },
+          },
+          width: { wch: 30 },
+        }, // width in characters
+        {
+          title: "FORAGE",
+          style: { font: { sz: "18", bold: true } },
+          width: { wpx: 100 },
+        }, // width in pixels
+        {
+          title: "CUVE MOBILE",
+          style: { font: { sz: "18", bold: true } },
+          width: { wpx: 125 },
+        }, // width in pixels
+        {
+          title: "Qté DEPOSEE",
+          style: { font: { sz: "18", bold: true } },
+          width: { wpx: 100 },
+        }, // width in pixels
+        {
+          title: "Qté EN STOCK",
+          style: { font: { sz: "18", bold: true } },
+          width: { wpx: 125 },
+        }, // width in pixels
+        {
+          title: "CONDUCTEUR",
+          style: { font: { sz: "18", bold: true } },
+          width: { wch: 30 },
+        }, // width in characters
+      ],
+      data: exporData.map((data, index = 1) => [
+        {
+          value: ++index,
+          style: {
+            font: { sz: "14" },
+            border: {
+              top: { style: "medium" },
+              bottom: { style: "medium" },
+              right: { style: "medium" },
+              left: { style: "medium" },
+            },
+            alignment: { horizontal: "center" },
+          },
+        },
+        {
+          value: data.dateApprov,
+          style: {
+            font: { sz: "14" },
+            border: {
+              top: { style: "medium" },
+              bottom: { style: "medium" },
+              right: { style: "medium" },
+              left: { style: "medium" },
+            },
+            alignment: { horizontal: "center" },
+          },
+        },
+        {
+          value: data.nomForage,
+          style: {
+            font: { color: { rgb: "ffffff" } },
+            fill: { patternType: "solid", fgColor: { rgb: "3461eb" } },
+          },
+        },
+        {
+          value: data.cuveName,
+          style: {
+            font: { color: { rgb: "ffffff" } },
+            fill: { patternType: "solid", fgColor: { rgb: "eb1207" } },
+          },
+        },
+        {
+          value: data.quantiteApprov,
+          style: {
+            font: { color: { rgb: "ffffff" } },
+            fill: { patternType: "solid", fgColor: { rgb: "4bd909" } },
+          },
+        },
+        {
+          value: data.quantiteStock,
+          style: {
+            font: { color: { rgb: "ffffff" } },
+            fill: { patternType: "solid", fgColor: { rgb: "ebc907" } },
+          },
+        },
+        {
+          value: data.nomConducteur,
+          style: {
+            font: { color: { rgb: "ffffff" } },
+            fill: { patternType: "solid", fgColor: { rgb: "35bdb4" } },
+          },
+        },
+      ]),
+    },
+  ];
+  const generatePDF = () => {
+    console.log(exporData.map((item) => Object.values(item)));
+
+    var doc = new jsPDF("p", "pt");
+    doc.text("Détails Ravitaillements Forages", 40, 30);
+    doc.autoTable({
+      // html: "#my-table",
+      theme: "grid",
+      // head: [["CUVE MOBILE", "QUANTITE ACTUELLE"]],
+      // body: exporData.map((item) => {
+      //   const { cuveName, quantityCurrentCuve } = item;
+      //   return Object.values({ cuveName, quantityCurrentCuve });
+      // }),
+      headStyles: {
+        cuveName: { halign: "center" },
+        quantityCurrentCuve: { halign: "center" },
+      },
+      // columnStyles: {
+      //   cuveName: { halign: "center" },
+      //   quantityCurrentCuve: { halign: "center" },
+      // }, // European countries centered
+      body: exporData.map((item, index = 1) => {
+        return { ...item, id: ++index };
+      }),
+      columns: [
+        { header: "N°", dataKey: "id" },
+        { header: "DATE HEURE", dataKey: "dateApprov" },
+        { header: "FORAGE", dataKey: "nomForage" },
+        { header: "CUVE MOBILE", dataKey: "cuveName" },
+        { header: "Qté DEPOSEE", dataKey: "quantiteApprov" },
+        { header: "Qté EN STOCK", dataKey: "quantiteStock" },
+        { header: "CONDUCTEUR", dataKey: "nomConducteur" },
+      ],
+    });
+
+    doc.save("demo.pdf");
+  };
   useEffect(() => {
     console.log("in all ravitaillementForages");
     console.log("les ravitaillementForages", ravitaillementForages);
 
     const newData = search([...ravitaillementForages]);
+    setExportData(newData);
     setPagination((prevState) => ({
       ...prevState,
       pageCount: newData.length / prevState.numberPerPage,
@@ -51,7 +219,7 @@ function AllApprovisionnementsForage() {
         <div className="tabs ">
           <ul className="nav nav-tabs">
             <li className="nav-item ">
-              <a className="nav-link active h6 " data-target="#stations">
+              <a className="nav-link active h6 " data-target="#stations" href>
                 Ravitailements Forages
               </a>
             </li>
@@ -67,6 +235,30 @@ function AllApprovisionnementsForage() {
               <Search findKey={findKey} setFindKey={setFindKey} />
               {/* <h6 className="mt-2">Ravitaillements Véhicules</h6> */}
             </div>
+            {exporData.length !== 0 ? (
+              <>
+                <ExcelFile
+                  filename="APPROVISIONNEMENT FORAGE"
+                  element={
+                    <button className="btn btn-sm btn-outline-success float-right  shadow-none mb-1">
+                      <i className="fa fa-upload  mr-1"> </i>Export Excel
+                    </button>
+                  }
+                >
+                  <ExcelSheet
+                    dataSet={DataSet}
+                    name="Rapport Ravitaillement des Forages"
+                  />
+                </ExcelFile>
+
+                <button
+                  onClick={generatePDF}
+                  className=" mr-2 btn btn-sm btn-outline-primary float-right  shadow-none mb-1"
+                >
+                  <i className="fa fa-upload  mr-1"> </i>Export PDF
+                </button>
+              </>
+            ) : null}
             <div className="table text-sm">
               <div className="table-responsive table-sm ">
                 <table className="table table-bordered table-striped ">

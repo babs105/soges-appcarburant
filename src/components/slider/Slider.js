@@ -13,7 +13,7 @@ function Slider() {
           {/* <div className="d-flex flex-column justify-content-center align-items-center "> */}
           <img
             src={"/images/banniereAO.jpg"}
-            className="img-fluid d-block w-100"
+            className="img-fluid h-100 w-100"
             alt="..."
           />
           <div class="carousel-caption ">

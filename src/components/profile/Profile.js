@@ -74,15 +74,15 @@ function Profile() {
   };
   return (
     <div className="row mx-0">
-      <div className=" mx-auto col-12 col-sm-4 ">
-        <div className="card p-5 mt-4  ">
+      <div className=" mx-auto col-12  col-md-5 ">
+        <div className="card py-4 px-5 mt-4  ">
           <div className="d-flex flex-column justify-content-center align-items-center  text-center">
             <img
               className="img-fluid w-50  "
               src={"/images/user-profile.svg"}
               alt=""
             />
-            <h3 className=" "> {user.firstName} </h3>
+            <h3 className=""> {user.firstName} </h3>
             <h3> {user.lastName}</h3>
 
             <div className="row">
@@ -94,7 +94,7 @@ function Profile() {
                 <span className="h5">Role</span> : {user.role}
               </h6>
               <button
-                className=" col-12  mt-4 btn btn-success shadow-none"
+                className=" col-12  col-md-5 mx-auto mt-4 mx-2 btn btn-success shadow-none"
                 onClick={() => {
                   setIsEditUser(true);
                   getEditUser(user);

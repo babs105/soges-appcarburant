@@ -24,8 +24,8 @@ function Dashboard() {
     .toUpperCase();
 
   return (
-    <>
-      <div className="row">
+    <div className="">
+      <div className="row w-100  mx-0">
         <div className="col">
           <div className="card mb-1 ">
             <div className="card-body">
@@ -34,7 +34,7 @@ function Dashboard() {
           </div>
         </div>
       </div>
-      <div className="row">
+      <div className="row mx-0">
         <div className="col">
           <div className="card mb-1">
             <div className="card-body">
@@ -53,7 +53,7 @@ function Dashboard() {
         </div>
       </div>
 
-      <div className="row mt-1 d-flex flex-coloumn flex-sm-row flex-sm-nowrap ">
+      <div className="row  mx-0 mt-1 d-flex flex-coloumn flex-sm-row flex-sm-nowrap ">
         <div className="col">
           <NombreAndTotalRavitaillementInPreviousMonth />
         </div>
@@ -72,7 +72,7 @@ function Dashboard() {
         </div>
       </div> */}
 
-      <div className="row">
+      <div className="row mx-0">
         <div className="mt-3 col-sm-6 ">
           <div className="card mb-1">
             <div className=" card-body">
@@ -93,7 +93,7 @@ function Dashboard() {
         </div>
       </div>
 
-      <div className="row">
+      <div className="row mx-0">
         <div className="col">
           <div className="card mt-5 mb-1 ">
             <div className="card-body">
@@ -102,7 +102,7 @@ function Dashboard() {
           </div>
         </div>
       </div>
-      <div className="row">
+      <div className="row mx-0">
         <div className="col">
           <div className="card mb-1">
             <div className="card-body">
@@ -121,7 +121,7 @@ function Dashboard() {
         </div>
       </div>
 
-      <div className="row">
+      <div className="row mx-0">
         <div className="col">
           <div className="card mt-5 mb-1 ">
             <div className="card-body">
@@ -130,7 +130,7 @@ function Dashboard() {
           </div>
         </div>
       </div>
-      <div className="row">
+      <div className="row mx-0">
         <div className="col">
           <div className="card mb-1">
             <div className="card-body">
@@ -148,7 +148,7 @@ function Dashboard() {
           </div>
         </div>
       </div>
-      <div className="row mt-1 d-flex flex-coloumn flex-sm-row ">
+      <div className="row  mx-0 mt-1 d-flex flex-coloumn flex-sm-row ">
         <div className="col">
           <NombreAndTotalRajoutInPreviousMonth />
         </div>
@@ -156,7 +156,7 @@ function Dashboard() {
           <NombreAndTotalRajoutInCurrentMonth />
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

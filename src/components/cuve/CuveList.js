@@ -34,6 +34,21 @@ function CuveList() {
     {
       columns: [
         {
+          title: " N°",
+          style: {
+            font: { sz: "18", bold: true, color: { rgb: "ffffff" } },
+            fill: { patternType: "solid", fgColor: { rgb: "eb1207" } },
+            border: {
+              top: { style: "medium" },
+              bottom: { style: "medium" },
+              right: { style: "medium" },
+              left: { style: "medium" },
+            },
+            alignment: { horizontal: "center" },
+          },
+          width: { wpx: 125 },
+        },
+        {
           title: "CUVE MOBILE",
           style: {
             font: { sz: "18", bold: true, color: { rgb: "ffffff" } },
@@ -104,7 +119,20 @@ function CuveList() {
         //   width: { wpx: 110 },
         // }, // width in pixels
       ],
-      data: exporData.map((data) => [
+      data: exporData.map((data, index = 1) => [
+        {
+          value: ++index,
+          style: {
+            font: { sz: "14" },
+            border: {
+              top: { style: "medium" },
+              bottom: { style: "medium" },
+              right: { style: "medium" },
+              left: { style: "medium" },
+            },
+            alignment: { horizontal: "center" },
+          },
+        },
         {
           value: data.cuveName,
           style: {
@@ -195,6 +223,9 @@ function CuveList() {
 
     console.log([Object.values({ ...exporData })]);
     var doc = new jsPDF("p", "pt");
+
+    doc.text("Etat Cuves Mobiles", 40, 30);
+
     doc.autoTable({
       // html: "#my-table",
       theme: "grid",
@@ -203,22 +234,25 @@ function CuveList() {
       //   const { cuveName, quantityCurrentCuve } = item;
       //   return Object.values({ cuveName, quantityCurrentCuve });
       // }),
-      headStyles: {
-        cuveName: { halign: "center" },
-        quantityCurrentCuve: { halign: "center" },
-      },
-      columnStyles: {
-        cuveName: { halign: "center" },
-        quantityCurrentCuve: { halign: "center" },
-      }, // European countries centered
-      body: exporData,
+      // headStyles: {
+      //   cuveName: { halign: "center" },
+      //   quantityCurrentCuve: { halign: "center" },
+      // },
+      // columnStyles: {
+      //   cuveName: { halign: "center" },
+      //   quantityCurrentCuve: { halign: "center" },
+      // }, // European countries centered
+      body: exporData.map((item, index = 1) => {
+        return { ...item, id: ++index };
+      }),
       columns: [
+        { header: "N°", dataKey: "id" },
         { header: "CUVE MOBILE", dataKey: "cuveName" },
-        { header: "QUANTITE ACTUELLE", dataKey: "quantityCurrentCuve" },
+        { header: "QUANTITE ACTUELLE (L)", dataKey: "quantityCurrentCuve" },
       ],
     });
 
-    doc.save("demo.pdf");
+    doc.save("RapportEtatCuveMobile.pdf");
   };
   useEffect(() => {
     const newData = search([...cuves]);
