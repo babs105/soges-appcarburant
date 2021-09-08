@@ -87,7 +87,7 @@ a:link {
   outline: none;
 } */
 .cp-pagination {
-  margin: 15px auto;
+  margin: 0 15px auto;
   display: flex;
   justify-content: center;
   list-style: none;

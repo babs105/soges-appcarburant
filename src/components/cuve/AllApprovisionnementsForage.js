@@ -183,7 +183,7 @@ function AllApprovisionnementsForage() {
       ],
     });
 
-    doc.save("demo.pdf");
+    doc.save("RapportRavitaillementForage.pdf");
   };
   useEffect(() => {
     console.log("in all ravitaillementForages");
@@ -226,21 +226,17 @@ function AllApprovisionnementsForage() {
           </ul>
         </div>
         <div className="card mt-2 ">
-          <Link to="/cuve" className="my-link p-2">
-            <i className="fa fa-arrow-left mr-1"></i>
-            Retour Liste
-          </Link>
-          <div className=" card-body">
-            <div className=" card-title">
-              <Search findKey={findKey} setFindKey={setFindKey} />
-              {/* <h6 className="mt-2">Ravitaillements Véhicules</h6> */}
-            </div>
+          <div>
+            <Link to="/cuve" className="my-link p-2 " style={{ width: "8rem" }}>
+              <i className="fa fa-arrow-left mr-1"></i>
+              Retour Liste
+            </Link>
             {exporData.length !== 0 ? (
               <>
                 <ExcelFile
                   filename="APPROVISIONNEMENT FORAGE"
                   element={
-                    <button className="btn btn-sm btn-outline-success float-right  shadow-none mb-1">
+                    <button className="btn btn-sm btn-outline-success float-right shadow-none my-1 mr-4">
                       <i className="fa fa-upload  mr-1"> </i>Export Excel
                     </button>
                   }
@@ -253,12 +249,19 @@ function AllApprovisionnementsForage() {
 
                 <button
                   onClick={generatePDF}
-                  className=" mr-2 btn btn-sm btn-outline-primary float-right  shadow-none mb-1"
+                  className=" mr-2 btn btn-sm btn-outline-primary float-right  shadow-none my-1"
                 >
                   <i className="fa fa-upload  mr-1"> </i>Export PDF
                 </button>
               </>
             ) : null}
+          </div>
+          <div className=" card-body pt-0">
+            <div className=" card-title">
+              <Search findKey={findKey} setFindKey={setFindKey} />
+              {/* <h6 className="mt-2">Ravitaillements Véhicules</h6> */}
+            </div>
+
             <div className="table text-sm">
               <div className="table-responsive table-sm ">
                 <table className="table table-bordered table-striped ">

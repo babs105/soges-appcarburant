@@ -6,7 +6,7 @@ function Navigation() {
   const { user } = useContext(UserContext);
   // const { getCuvePrincipaleList } = useContext(CuvePrincipaleContext);
   return (
-    <div className="  px-4 py-1 border-bottom ">
+    <div className="  px-4 py-1 border-bottom bg-c-light">
       <ul className="nav font-weight-normal mx-auto ">
         <li className="nav-item ">
           <NavLink to="/dashboard" className="nav-link px-2 text-success">

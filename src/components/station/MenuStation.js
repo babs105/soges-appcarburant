@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function MenuStation() {
   return (
     <div
-      className=" d-sm-flex justify-content-start align-items-center d-lg-block w-50  col-12 col-lg-2 bg-light border-right border-bottom  p-1 p-lg-4 "
+      className=" d-sm-flex justify-content-start align-items-center d-lg-block w-50  col-12 col-lg-2 bg-c-light border-right border-bottom  p-1 p-lg-4 "
       // style={{ height: "100vh" }}
     >
       <h6 className="text-center ml-4 mb-0 mr-2">STATION</h6>

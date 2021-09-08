@@ -78,46 +78,6 @@ function CuveList() {
           },
           width: { wch: 30 },
         }, // width in characters
-        // {
-        //   title: "Confirmed",
-        //   style: { font: { sz: "18", bold: true } },
-        //   width: { wpx: 100 },
-        // }, // width in pixels
-        // {
-        //   title: "Deaths",
-        //   style: { font: { sz: "18", bold: true } },
-        //   width: { wpx: 125 },
-        // }, // width in pixels
-        // {
-        //   title: "Recovered",
-        //   style: { font: { sz: "18", bold: true } },
-        //   width: { wpx: 100 },
-        // }, // width in pixels
-        // {
-        //   title: "Active",
-        //   style: { font: { sz: "18", bold: true } },
-        //   width: { wpx: 125 },
-        // }, // width in pixels
-        // {
-        //   title: "Incident Rate",
-        //   style: { font: { sz: "18", bold: true } },
-        //   width: { wch: 30 },
-        // }, // width in characters
-        // {
-        //   title: "Latitude",
-        //   style: { font: { sz: "18", bold: true } },
-        //   width: { wpx: 125 },
-        // }, // width in pixels
-        // {
-        //   title: "Longitude",
-        //   style: { font: { sz: "18", bold: true } },
-        //   width: { wpx: 125 },
-        // }, // width in pixels
-        // {
-        //   title: "Last Update",
-        //   style: { font: { sz: "18", bold: true } },
-        //   width: { wpx: 110 },
-        // }, // width in pixels
       ],
       data: exporData.map((data, index = 1) => [
         {
@@ -159,62 +119,6 @@ function CuveList() {
             alignment: { horizontal: "center" },
           },
         },
-        // {
-        //   value: data.confirmed,
-        //   style: {
-        //     font: { color: { rgb: "ffffff" } },
-        //     fill: { patternType: "solid", fgColor: { rgb: "3461eb" } },
-        //   },
-        // },
-        // {
-        //   value: data.deaths,
-        //   style: {
-        //     font: { color: { rgb: "ffffff" } },
-        //     fill: { patternType: "solid", fgColor: { rgb: "eb1207" } },
-        //   },
-        // },
-        // {
-        //   value: data.recovered,
-        //   style: {
-        //     font: { color: { rgb: "ffffff" } },
-        //     fill: { patternType: "solid", fgColor: { rgb: "4bd909" } },
-        //   },
-        // },
-        // {
-        //   value: data.active,
-        //   style: {
-        //     font: { color: { rgb: "ffffff" } },
-        //     fill: { patternType: "solid", fgColor: { rgb: "ebc907" } },
-        //   },
-        // },
-        // {
-        //   value: data.incidentRate,
-        //   style: {
-        //     font: { color: { rgb: "ffffff" } },
-        //     fill: { patternType: "solid", fgColor: { rgb: "35bdb4" } },
-        //   },
-        // },
-        // {
-        //   value: data.lat,
-        //   style: {
-        //     font: { color: { rgb: "ffffff" } },
-        //     fill: { patternType: "solid", fgColor: { rgb: "ed14f5" } },
-        //   },
-        // },
-        // {
-        //   value: data.long,
-        //   style: {
-        //     font: { color: { rgb: "ffffff" } },
-        //     fill: { patternType: "solid", fgColor: { rgb: "ed14f5" } },
-        //   },
-        // },
-        // {
-        //   value: data.lastUpdate,
-        //   style: {
-        //     font: { color: { rgb: "ffffff" } },
-        //     fill: { patternType: "solid", fgColor: { rgb: "000000" } },
-        //   },
-        // },
       ]),
     },
   ];
@@ -293,31 +197,41 @@ function CuveList() {
         </div>
 
         <div className=" card mt-2">
-          <div className="card-body">
-            <div className="card-title">
-              <Search findKey={findKey} setFindKey={setFindKey} />
-            </div>
+          <div>
+            <Link to="/cuve" className="my-link p-2 " style={{ width: "8rem" }}>
+              <i className="fa fa-arrow-left mr-1"></i>
+              Retour Liste
+            </Link>
             {exporData.length !== 0 ? (
               <>
                 <ExcelFile
-                  filename="CUVES MOBILES"
+                  filename="APPROVISIONNEMENT FORAGE"
                   element={
-                    <button className="btn btn-sm btn-outline-success float-right  shadow-none mb-1">
+                    <button className="btn btn-sm btn-outline-success float-right shadow-none my-1 mr-4">
                       <i className="fa fa-upload  mr-1"> </i>Export Excel
                     </button>
                   }
                 >
-                  <ExcelSheet dataSet={DataSet} name="Etat cuves mobile" />
+                  <ExcelSheet
+                    dataSet={DataSet}
+                    name="Rapport Ravitaillement des Forages"
+                  />
                 </ExcelFile>
 
                 <button
                   onClick={generatePDF}
-                  className=" mr-2 btn btn-sm btn-outline-primary float-right  shadow-none mb-1"
+                  className=" mr-2 btn btn-sm btn-outline-primary float-right  shadow-none my-1"
                 >
                   <i className="fa fa-upload  mr-1"> </i>Export PDF
                 </button>
               </>
             ) : null}
+          </div>
+          <div className="card-body pt-0">
+            <div className="card-title">
+              <Search findKey={findKey} setFindKey={setFindKey} />
+            </div>
+
             <div className="">
               <div className="table-responsive table-sm ">
                 <table
