@@ -181,14 +181,14 @@ function CuveList() {
   return (
     <div className="row w-100 mx-0">
       <MenuCuveMobile />
-      <div className="col col-lg-10 mt-4">
+      <div className="col-12 col-lg-10 mt-4">
         <div className="tabs ">
           <ul className="nav nav-tabs">
             <li className="nav-item ">
               <a
                 className="nav-link active h6 text-center"
                 data-target="#stations"
-                href
+                href={"#/"}
               >
                 Liste Cuve Mobile
               </a>
@@ -198,10 +198,10 @@ function CuveList() {
 
         <div className=" card mt-2">
           <div>
-            <Link to="/cuve" className="my-link p-2 " style={{ width: "8rem" }}>
+            {/* <Link to="/cuve" className="my-link p-2 " style={{ width: "8rem" }}>
               <i className="fa fa-arrow-left mr-1"></i>
               Retour Liste
-            </Link>
+            </Link> */}
             {exporData.length !== 0 ? (
               <>
                 <ExcelFile

@@ -124,3 +124,9 @@ a:link {
 .cp-pagination > li:last-child > span {
   border-radius: unset;
 }
+
+@media screen and (min-width: 1024px) {
+  .c-height {
+    height: 100vh;
+  }
+}

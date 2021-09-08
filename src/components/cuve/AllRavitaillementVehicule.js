@@ -42,7 +42,7 @@ function AllRavitaillementVehicule() {
             },
             alignment: { horizontal: "center" },
           },
-          width: { wpx: 125 },
+          width: { wch: 2 },
         }, // width in pixels
         {
           title: "DATE HEURE",
@@ -57,32 +57,97 @@ function AllRavitaillementVehicule() {
             },
             alignment: { horizontal: "center" },
           },
-          width: { wch: 30 },
+          width: { wch: 20 },
         }, // width in characters
         {
-          title: "FORAGE",
-          style: { font: { sz: "18", bold: true } },
-          width: { wpx: 100 },
-        }, // width in pixels
-        {
           title: "CUVE MOBILE",
-          style: { font: { sz: "18", bold: true } },
-          width: { wpx: 125 },
+          style: {
+            font: { sz: "18", bold: true, color: { rgb: "ffffff" } },
+            fill: { patternType: "solid", fgColor: { rgb: "eb1207" } },
+            border: {
+              top: { style: "medium" },
+              bottom: { style: "medium" },
+              right: { style: "medium" },
+              left: { style: "medium" },
+            },
+            alignment: { horizontal: "center" },
+          },
+          width: { wch: 20 },
         }, // width in pixels
         {
-          title: "Qté DEPOSEE",
-          style: { font: { sz: "18", bold: true } },
-          width: { wpx: 100 },
+          title: "QUANTITE (état)",
+          style: {
+            font: { sz: "18", bold: true, color: { rgb: "ffffff" } },
+            fill: { patternType: "solid", fgColor: { rgb: "eb1207" } },
+            border: {
+              top: { style: "medium" },
+              bottom: { style: "medium" },
+              right: { style: "medium" },
+              left: { style: "medium" },
+            },
+            alignment: { horizontal: "center" },
+          },
+          width: { wch: 20 },
         }, // width in pixels
         {
-          title: "Qté EN STOCK",
-          style: { font: { sz: "18", bold: true } },
-          width: { wpx: 125 },
+          title: "Qté RAVITAILLEE",
+          style: {
+            font: { sz: "18", bold: true, color: { rgb: "ffffff" } },
+            fill: { patternType: "solid", fgColor: { rgb: "eb1207" } },
+            border: {
+              top: { style: "medium" },
+              bottom: { style: "medium" },
+              right: { style: "medium" },
+              left: { style: "medium" },
+            },
+            alignment: { horizontal: "center" },
+          },
+          width: { wch: 20 },
         }, // width in pixels
+        {
+          title: "MATRICULE",
+          style: {
+            font: { sz: "18", bold: true, color: { rgb: "ffffff" } },
+            fill: { patternType: "solid", fgColor: { rgb: "eb1207" } },
+            border: {
+              top: { style: "medium" },
+              bottom: { style: "medium" },
+              right: { style: "medium" },
+              left: { style: "medium" },
+            },
+            alignment: { horizontal: "center" },
+          },
+          width: { wch: 15 },
+        }, // width in pixels
+        {
+          title: "KILOMETRAGE",
+          style: {
+            font: { sz: "18", bold: true, color: { rgb: "ffffff" } },
+            fill: { patternType: "solid", fgColor: { rgb: "eb1207" } },
+            border: {
+              top: { style: "medium" },
+              bottom: { style: "medium" },
+              right: { style: "medium" },
+              left: { style: "medium" },
+            },
+            alignment: { horizontal: "center" },
+          },
+          width: { wch: 20 },
+        },
         {
           title: "CONDUCTEUR",
-          style: { font: { sz: "18", bold: true } },
-          width: { wch: 30 },
+          style: {
+            font: { sz: "18", bold: true, color: { rgb: "ffffff" } },
+            fill: { patternType: "solid", fgColor: { rgb: "eb1207" } },
+            border: {
+              top: { style: "medium" },
+              bottom: { style: "medium" },
+              right: { style: "medium" },
+              left: { style: "medium" },
+            },
+            alignment: { horizontal: "center" },
+          },
+          width: { wch: 20 },
         }, // width in characters
       ],
       data: exporData.map((data, index = 1) => [
@@ -100,7 +165,7 @@ function AllRavitaillementVehicule() {
           },
         },
         {
-          value: data.dateApprov,
+          value: data.dateRavitaillement,
           style: {
             font: { sz: "14" },
             border: {
@@ -113,38 +178,82 @@ function AllRavitaillementVehicule() {
           },
         },
         {
-          value: data.nomForage,
-          style: {
-            font: { color: { rgb: "ffffff" } },
-            fill: { patternType: "solid", fgColor: { rgb: "3461eb" } },
-          },
-        },
-        {
           value: data.cuveName,
+          font: { sz: "14" },
           style: {
-            font: { color: { rgb: "ffffff" } },
-            fill: { patternType: "solid", fgColor: { rgb: "eb1207" } },
+            font: { sz: "14" },
+            border: {
+              top: { style: "medium" },
+              bottom: { style: "medium" },
+              right: { style: "medium" },
+              left: { style: "medium" },
+            },
+            alignment: { horizontal: "center" },
           },
         },
         {
-          value: data.quantiteApprov,
+          value: data.quantityCurrentCuve,
           style: {
-            font: { color: { rgb: "ffffff" } },
-            fill: { patternType: "solid", fgColor: { rgb: "4bd909" } },
+            font: { sz: "14" },
+            border: {
+              top: { style: "medium" },
+              bottom: { style: "medium" },
+              right: { style: "medium" },
+              left: { style: "medium" },
+            },
+            alignment: { horizontal: "center" },
           },
         },
         {
-          value: data.quantiteStock,
+          value: data.quantityRavitaillement,
           style: {
-            font: { color: { rgb: "ffffff" } },
-            fill: { patternType: "solid", fgColor: { rgb: "ebc907" } },
+            font: { sz: "14" },
+            border: {
+              top: { style: "medium" },
+              bottom: { style: "medium" },
+              right: { style: "medium" },
+              left: { style: "medium" },
+            },
+            alignment: { horizontal: "center" },
           },
         },
         {
-          value: data.nomConducteur,
+          value: data.immatricule,
           style: {
-            font: { color: { rgb: "ffffff" } },
-            fill: { patternType: "solid", fgColor: { rgb: "35bdb4" } },
+            font: { sz: "14" },
+            border: {
+              top: { style: "medium" },
+              bottom: { style: "medium" },
+              right: { style: "medium" },
+              left: { style: "medium" },
+            },
+            alignment: { horizontal: "center" },
+          },
+        },
+        {
+          value: data.kilometrageCurrent,
+          style: {
+            font: { sz: "14" },
+            border: {
+              top: { style: "medium" },
+              bottom: { style: "medium" },
+              right: { style: "medium" },
+              left: { style: "medium" },
+            },
+            alignment: { horizontal: "center" },
+          },
+        },
+        {
+          value: data.chauffeur,
+          style: {
+            font: { sz: "14" },
+            border: {
+              top: { style: "medium" },
+              bottom: { style: "medium" },
+              right: { style: "medium" },
+              left: { style: "medium" },
+            },
+            alignment: { horizontal: "center" },
           },
         },
       ]),
@@ -154,10 +263,11 @@ function AllRavitaillementVehicule() {
     console.log(exporData.map((item) => Object.values(item)));
 
     var doc = new jsPDF("p", "pt");
-    doc.text("Détails Ravitaillements Forages", 40, 30);
+    doc.text("Détails Ravitaillements Véhicules", 40, 30);
     doc.autoTable({
       // html: "#my-table",
       theme: "grid",
+      styles: { cellWidth: "auto" },
       // head: [["CUVE MOBILE", "QUANTITE ACTUELLE"]],
       // body: exporData.map((item) => {
       //   const { cuveName, quantityCurrentCuve } = item;
@@ -176,16 +286,18 @@ function AllRavitaillementVehicule() {
       }),
       columns: [
         { header: "N°", dataKey: "id" },
-        { header: "DATE HEURE", dataKey: "dateApprov" },
-        { header: "FORAGE", dataKey: "nomForage" },
+        { header: "DATE HEURE", dataKey: "dateRavitaillement" },
         { header: "CUVE MOBILE", dataKey: "cuveName" },
-        { header: "Qté DEPOSEE", dataKey: "quantiteApprov" },
-        { header: "Qté EN STOCK", dataKey: "quantiteStock" },
-        { header: "CONDUCTEUR", dataKey: "nomConducteur" },
+        { header: "QUANTITE (état)", dataKey: "quantityCurrentCuve" },
+        { header: "Qté RAVITAILLEE ", dataKey: "quantityRavitaillement" },
+        { header: "MATRICULE", dataKey: "immatricule" },
+        { header: "KILOMETRAGE", dataKey: "kilometrageCurrent" },
+        { header: "CATEGORIE", dataKey: "categorie" },
+        // { header: "CONDUCTEUR", dataKey: "chauffeur" },
       ],
     });
 
-    doc.save("RapportRavitaillementForage.pdf");
+    doc.save("RapportRavitaillementVéhicule.pdf");
   };
   useEffect(() => {
     console.log("in all ravitaillementsVehicule");

@@ -71,7 +71,7 @@ function ForageList() {
                     <tr className="text-sm">
                       <th className="align-middle text-center ">FORAGE</th>
                       <th className="align-middle text-center">
-                        QUANTITE STOCK
+                        QUANTITE STOCK (en Litre)
                       </th>
                       <th className=" align-middle text-center ">ACTIONS</th>
                       <th
@@ -158,7 +158,7 @@ function ForageList() {
                               style={{ width: "5%" }}
                             >
                               <i
-                                style={{ fontSize: 36 }}
+                                style={{ fontSize: 20 }}
                                 className="fa fa-bell"
                               ></i>
                             </td>
