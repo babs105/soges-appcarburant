@@ -2,21 +2,15 @@ import { useState, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import Pagination from "../pagination/Pagination";
+
+import ReactPaginate from "react-paginate";
 import Search from "../search/Search";
 import { UserContext } from "../../context/UserContext";
 import { TableListContext } from "../../context/TableListContext";
+import MenuUsers from "./MenuUsers";
 
 function UsersList(props) {
-  const {
-    logging,
-    findKey,
-    currentPage,
-    nombrePerPage,
-    search,
-    paginate,
-    setFindKey,
-  } = useContext(TableListContext);
+  const { logging, findKey, search, setFindKey } = useContext(TableListContext);
   const [user, setUser] = useState({});
 
   const [isEditUser, setIsEditUser] = useState(false);
@@ -24,10 +18,32 @@ function UsersList(props) {
 
   // let history = useHistory();
   let watchEditPassword = false;
+  const [pagination, setPagination] = useState({
+    data: [],
+    offset: 0,
+    numberPerPage: 6,
+    pageCount: 0,
+    currentData: [],
+  });
+
   useEffect(() => {
-    setFindKey("");
-    paginate(1);
-  }, []);
+    const newData = search([...users]);
+    console.log(" users", users);
+    setPagination((prevState) => ({
+      ...prevState,
+      pageCount: newData.length / prevState.numberPerPage,
+      currentData: newData.slice(
+        pagination.offset,
+        pagination.offset + pagination.numberPerPage
+      ),
+    }));
+  }, [pagination.numberPerPage, pagination.offset, users, search]);
+
+  const handlePageClick = (event) => {
+    const selected = event.selected;
+    const offset = selected * pagination.numberPerPage;
+    setPagination({ ...pagination, offset });
+  };
   // form validation rules
   const validationUser = Yup.object().shape({
     firstName: Yup.string().required("prenom is required"),
@@ -100,206 +116,204 @@ function UsersList(props) {
   };
 
   return (
-    <div className="col">
-      <div className="e-tabs mb-1 px-3 ">
-        <ul className="nav nav-tabs">
-          <li className="nav-item ">
-            <a className="nav-link active " data-target="#users">
-              Utilisateurs
-            </a>
-          </li>
-          {/* <li className="nav-item">
-            <a className="nav-link active" data-target="#commandes">
-              Commande
-            </a>
-          </li> */}
-        </ul>
-      </div>
-      <div
-        className="row  d-flex flex-column-reverse flex-lg-row flex-lg-nowrap "
-        id="users"
-      >
-        <div className="col mb-3">
-          <div className="e-panel card">
-            <div className="card-body">
-              <div className="card-title">
-                <h6 className="mr-2">
-                  <span>Utilisateurs</span>
-                  <small className="px-1">Details</small>
-                </h6>
-              </div>
-              <div className="e-table">
-                <div className="table-responsive table-sm ">
-                  <table className="table table-bordered table-striped ">
-                    <thead className="thead-light">
-                      <tr>
-                        <th>PRENOM</th>
-                        <th className="max-width">NOM</th>
-                        <th>USERNAME</th>
-                        {/* <th>EMAIL</th> */}
-                        <th>ROLE</th>
-                        {/* <th className="sortable">Date</th> */}
+    <div className="row w-100 mx-0">
+      <MenuUsers reset={reset} setIsEditUser={setIsEditUser} />
+      <div className="col-12 col-lg-10 mt-4">
+        <div className="tabs ">
+          <ul className="nav nav-tabs">
+            <li className="nav-item ">
+              <a className="nav-link active " data-target="#users" href="#/">
+                Utilisateurs
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div className="card mt-2">
+          <div className="card-body">
+            <div className="card-title mt-0">
+              <Search findKey={findKey} setFindKey={setFindKey} />
+            </div>
+            <div className="table">
+              <div className="table-responsive table-sm ">
+                <table className="table table-bordered table-striped ">
+                  <thead className="thead-light">
+                    <tr>
+                      <th>PRENOM</th>
+                      <th className="max-width">NOM</th>
+                      <th>USERNAME</th>
+                      {/* <th>EMAIL</th> */}
+                      <th>ROLE</th>
+                      {/* <th className="sortable">Date</th> */}
 
-                        <th>Actions</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {logging ? (
+                      <tr className="">
+                        <td className="text-center" colSpan="6">
+                          <div className=" spinner-border text-success "></div>
+                          <span className="sr-only">Loading...</span>
+                        </td>
                       </tr>
-                    </thead>
-                    <tbody>
-                      {logging ? (
-                        <tr className="">
-                          <td className="text-center" colSpan="6">
-                            <div className=" spinner-border text-success "></div>
-                            <span className="sr-only">Loading...</span>
+                    ) : (
+                      pagination.currentData &&
+                      pagination.currentData.map((user, index) => (
+                        <tr key={user.id}>
+                          <td className="text-nowrap align-middle">
+                            {user.firstName}
                           </td>
-                        </tr>
-                      ) : (
-                        search(users)
-                          .slice(
-                            currentPage * nombrePerPage - nombrePerPage,
-                            currentPage * nombrePerPage
-                          )
-                          .map((user) => (
-                            <tr key={user.id}>
-                              <td className="text-nowrap align-middle">
-                                {user.firstName}
-                              </td>
-                              <td className="text-nowrap align-middle">
-                                {user.lastName}
-                              </td>
-                              <td className="text-nowrap align-middle">
-                                {user.username}
-                              </td>
-                              {/* <td className="text-nowrap align-middle">
+                          <td className="text-nowrap align-middle">
+                            {user.lastName}
+                          </td>
+                          <td className="text-nowrap align-middle">
+                            {user.username}
+                          </td>
+                          {/* <td className="text-nowrap align-middle">
                                 {user.email}
                               </td> */}
-                              <td className="text-nowrap align-middle">
-                                {user.role}
-                              </td>
-                              <td className="text-nowrap align-middle">
-                                <i
-                                  className="fa fa-fw fa-pencil"
-                                  onClick={() => {
-                                    setIsEditUser(true);
+                          <td className="text-nowrap align-middle">
+                            {user.role}
+                          </td>
+                          <td className="text-nowrap align-middle">
+                            <i
+                              className="fa fa-fw fa-pencil"
+                              onClick={() => {
+                                setIsEditUser(true);
 
-                                    getEditUser(user);
-                                  }}
-                                  data-toggle="modal"
-                                  data-target="#user-form-modal"
-                                  style={{ cursor: "pointer" }}
-                                ></i>
-                              </td>
-                            </tr>
-                          ))
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-                <Pagination
-                  nombreTotal={search(users).length}
-                  nombrePerPage={nombrePerPage}
-                  paginate={paginate}
-                  currentPage={currentPage}
+                                getEditUser(user);
+                              }}
+                              data-toggle="modal"
+                              data-target="#user-form-modal"
+                              style={{ cursor: "pointer" }}
+                            ></i>
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+              <div className="">
+                <ReactPaginate
+                  previousLabel={"Précedent "}
+                  nextLabel={"Suivant"}
+                  breakLabel={"..."}
+                  breakClassName={"break-me"}
+                  pageCount={pagination.pageCount}
+                  marginPagesDisplayed={2}
+                  pageRangeDisplayed={5}
+                  onPageChange={handlePageClick}
+                  containerClassName={"cp-pagination"}
+                  subContainerClassName={"pages cp-pagination"}
+                  activeClassName={"cp-active"}
                 />
               </div>
             </div>
           </div>
         </div>
-        <div className="col-12 col-lg-3 mb-3">
-          <div className="card">
-            <div className="card-body">
-              <div className="text-center px-xl-3">
-                <button
-                  className="btn btn-success btn-block shadow-none"
-                  type="button"
-                  data-toggle="modal"
-                  data-target="#user-form-modal"
-                  onClick={() => {
-                    reset();
-                    // setUser({});
-                    setIsEditUser(false);
-                  }}
-                >
-                  Nouveau Utilisateur
+
+        {/* <div className="col-12 col-lg-3 mb-3">
+            <div className="card">
+              <div className="card-body">
+                <div className="text-center px-xl-3">
+                  <button
+                    className="btn btn-success btn-block shadow-none"
+                    type="button"
+                    data-toggle="modal"
+                    data-target="#user-form-modal"
+                    onClick={() => {
+                      reset();
+                      // setUser({});
+                      setIsEditUser(false);
+                    }}
+                  >
+                    Nouveau Utilisateur
+                  </button>
+                </div>
+                <hr className="my-3" />
+                <div className="e-navlist e-navlist--active-bold"></div>
+                <hr className="my-3" />
+                <div>
+                  <div className="form-group">
+                    <Search findKey={findKey} setFindKey={setFindKey} />
+                  </div>
+                </div>
+                <hr className="my-3" />
+                <div className=""></div>
+              </div>
+            </div>
+          </div> */}
+
+        <div
+          className="modal "
+          role="dialog"
+          tabIndex="-1"
+          id="user-form-modal"
+        >
+          <div className="modal-dialog modal-md" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">
+                  {isEditUser ? "Editer Utilisateur" : "Nouveau Utilisateur"}
+                </h5>
+                <button type="button" className=" close" data-dismiss="modal">
+                  <span aria-hidden="true">×</span>
                 </button>
               </div>
-              <hr className="my-3" />
-              <div className="e-navlist e-navlist--active-bold"></div>
-              <hr className="my-3" />
-              <div>
-                <div className="form-group">
-                  <Search findKey={findKey} setFindKey={setFindKey} />
-                </div>
-              </div>
-              <hr className="my-3" />
-              <div className=""></div>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <div className="modal " role="dialog" tabIndex="-1" id="user-form-modal">
-        <div className="modal-dialog modal-md" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">
-                {isEditUser ? "Editer Utilisateur" : "Nouveau Utilisateur"}
-              </h5>
-              <button type="button" className=" close" data-dismiss="modal">
-                <span aria-hidden="true">×</span>
-              </button>
-            </div>
-
-            <div className="modal-body">
-              <div className="py-1">
-                <form
-                  className=""
-                  onSubmit={handleSubmit(
-                    isEditUser ? editUtilisateur : addUtilisateur
-                  )}
-                >
-                  <div className="row">
-                    <div className="col">
-                      <div className="row">
-                        <div className="col-12 col-sm-6">
-                          <div className="form-group">
-                            <label>Prénom</label>
-                            <input
-                              className={
-                                errors?.firstName
-                                  ? "is-invalid form-control"
-                                  : "form-control"
-                              }
-                              ref={register}
-                              type="text"
-                              name="firstName"
-                              placeholder="Prénom"
-                            />
-                            <div className="invalid-feedback">
-                              {errors.firstName?.message}
+              <div className="modal-body">
+                <div className="py-1">
+                  <form
+                    className=""
+                    onSubmit={handleSubmit(
+                      isEditUser ? editUtilisateur : addUtilisateur
+                    )}
+                  >
+                    <div className="row">
+                      <div className="col">
+                        <div className="row">
+                          <div className="col-12 col-sm-6">
+                            <div className="form-group">
+                              <label>Prénom</label>
+                              <input
+                                className={
+                                  errors?.firstName
+                                    ? "is-invalid form-control"
+                                    : "form-control"
+                                }
+                                ref={register}
+                                type="text"
+                                name="firstName"
+                                placeholder="Prénom"
+                              />
+                              <div className="invalid-feedback">
+                                {errors.firstName?.message}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="col-12 col-sm-6">
+                            <div className="form-group">
+                              <label>Nom</label>
+                              <input
+                                className={
+                                  errors?.lastName
+                                    ? "is-invalid form-control"
+                                    : "form-control"
+                                }
+                                ref={register}
+                                type="text"
+                                name="lastName"
+                                placeholder="Nom"
+                              />
+                              <div className="invalid-feedback">
+                                {errors.lastName?.message}
+                              </div>
                             </div>
                           </div>
                         </div>
-                        <div className="col-12 col-sm-6">
-                          <div className="form-group">
-                            <label>Nom</label>
-                            <input
-                              className={
-                                errors?.lastName
-                                  ? "is-invalid form-control"
-                                  : "form-control"
-                              }
-                              ref={register}
-                              type="text"
-                              name="lastName"
-                              placeholder="Nom"
-                            />
-                            <div className="invalid-feedback">
-                              {errors.lastName?.message}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="row">
-                        {/* <div className="col-12 col-sm-6">
+                        <div className="row">
+                          {/* <div className="col-12 col-sm-6">
                           <div className="form-group">
                             <label>Login</label>
                             <input
@@ -319,71 +333,117 @@ function UsersList(props) {
                             </div>
                           </div>
                         </div> */}
-                        <div className="col-12 col-sm-12">
-                          <div className="form-group">
-                            <label>Email</label>
-                            <input
-                              className={
-                                errors?.username
-                                  ? "is-invalid form-control"
-                                  : "form-control"
-                              }
-                              ref={register}
-                              name="username"
-                              type="email"
-                              placeholder="user@example.com"
-                            />
-                            <div className="invalid-feedback">
-                              {errors.username?.message}
+                          <div className="col-12 col-sm-12">
+                            <div className="form-group">
+                              <label>Email</label>
+                              <input
+                                className={
+                                  errors?.username
+                                    ? "is-invalid form-control"
+                                    : "form-control"
+                                }
+                                ref={register}
+                                name="username"
+                                type="email"
+                                placeholder="user@example.com"
+                              />
+                              <div className="invalid-feedback">
+                                {errors.username?.message}
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="row">
-                        <div className="col-12 col-sm-6">
-                          <div className="form-group">
-                            <label>Profil</label>
-
-                            <select
-                              className={
-                                errors?.role
-                                  ? "is-invalid form-control"
-                                  : "form-control"
-                              }
-                              ref={register}
-                              name="role"
-                              type="selected"
-                            >
-                              <option value="">Sélectionner un profil</option>
-                              <option value="Agent">Agent</option>
-                              <option value="Admin">Admin</option>
-                            </select>
-                            <div className="invalid-feedback">
-                              {errors.role?.message}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      {isEditUser && (
                         <div className="row">
                           <div className="col-12 col-sm-6">
-                            <div className=" d-flex justify-content-between align-items-baseline">
-                              <label className=" pt-3 ">
-                                <span className=" h6">
-                                  Changer Mot de Passe ?
-                                </span>
-                              </label>
-                              <input
-                                type="checkbox"
-                                name="editPassword"
+                            <div className="form-group">
+                              <label>Profil</label>
+
+                              <select
+                                className={
+                                  errors?.role
+                                    ? "is-invalid form-control"
+                                    : "form-control"
+                                }
                                 ref={register}
-                              />
+                                name="role"
+                                type="selected"
+                              >
+                                <option value="">Sélectionner un profil</option>
+                                <option value="Agent">Agent</option>
+                                <option value="Admin">Admin</option>
+                              </select>
+                              <div className="invalid-feedback">
+                                {errors.role?.message}
+                              </div>
                             </div>
                           </div>
                         </div>
-                      )}
-                      {isEditUser ? (
-                        watchEditPassword && (
+                        {isEditUser && (
+                          <div className="row">
+                            <div className="col-12 col-sm-6">
+                              <div className=" d-flex justify-content-between align-items-baseline">
+                                <label className=" pt-3 ">
+                                  <span className=" h6">
+                                    Changer Mot de Passe ?
+                                  </span>
+                                </label>
+                                <input
+                                  type="checkbox"
+                                  name="editPassword"
+                                  ref={register}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                        {isEditUser ? (
+                          watchEditPassword && (
+                            <div className="row">
+                              <div className="col-12 col-sm-6">
+                                <div className="form-group">
+                                  <label>Mot de Passe</label>
+                                  <input
+                                    className={
+                                      errors?.password
+                                        ? "is-invalid form-control"
+                                        : "form-control"
+                                    }
+                                    ref={register}
+                                    type="password"
+                                    name="password"
+                                  />
+                                  <div className="invalid-feedback">
+                                    {errors.password?.message}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="col-12 col-sm-6">
+                                <div className="form-group">
+                                  <label>
+                                    Confirmer{" "}
+                                    <span className="d-none d-xl-inline">
+                                      mot de passe
+                                    </span>
+                                  </label>
+                                  <input
+                                    className={
+                                      errors?.confirmPassword
+                                        ? "is-invalid form-control"
+                                        : "form-control"
+                                    }
+                                    ref={register}
+                                    type="password"
+                                    name="confirmPassword"
+                                  />
+                                  <div className="invalid-feedback">
+                                    {errors.confirmPassword?.message}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          )
+                        ) : (
                           <div className="row">
                             <div className="col-12 col-sm-6">
                               <div className="form-group">
@@ -428,72 +488,27 @@ function UsersList(props) {
                               </div>
                             </div>
                           </div>
-                        )
-                      ) : (
-                        <div className="row">
-                          <div className="col-12 col-sm-6">
-                            <div className="form-group">
-                              <label>Mot de Passe</label>
-                              <input
-                                className={
-                                  errors?.password
-                                    ? "is-invalid form-control"
-                                    : "form-control"
-                                }
-                                ref={register}
-                                type="password"
-                                name="password"
-                              />
-                              <div className="invalid-feedback">
-                                {errors.password?.message}
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="col-12 col-sm-6">
-                            <div className="form-group">
-                              <label>
-                                Confirmer{" "}
-                                <span className="d-none d-xl-inline">
-                                  mot de passe
-                                </span>
-                              </label>
-                              <input
-                                className={
-                                  errors?.confirmPassword
-                                    ? "is-invalid form-control"
-                                    : "form-control"
-                                }
-                                ref={register}
-                                type="password"
-                                name="confirmPassword"
-                              />
-                              <div className="invalid-feedback">
-                                {errors.confirmPassword?.message}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="row">
-                    <div className="col d-flex justify-content-end">
-                      <button
-                        className="btn btn-success"
-                        type="submit"
-                        id="mybutton"
-                        disabled={formState.isSubmitting}
-                      >
-                        {logging && (
-                          <span className="spinner-border spinner-border-sm mr-1 "></span>
                         )}
-                        {isEditUser ? "Editer" : "Ajouter"}
-                      </button>
+                      </div>
                     </div>
-                  </div>
-                </form>
+
+                    <div className="row">
+                      <div className="col d-flex justify-content-end">
+                        <button
+                          className="btn btn-success"
+                          type="submit"
+                          id="mybutton"
+                          disabled={formState.isSubmitting}
+                        >
+                          {logging && (
+                            <span className="spinner-border spinner-border-sm mr-1 "></span>
+                          )}
+                          {isEditUser ? "Editer" : "Ajouter"}
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
           </div>

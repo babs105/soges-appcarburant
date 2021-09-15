@@ -62,7 +62,7 @@ function AddStation({ history }) {
 
               <div className="d-flex flex-column justify-content-center align-items-center ">
                 <form
-                  className="col-12 col-md-6 col-lg-5 col-xl-5"
+                  className="col-12 col-md-6 col-lg-4 "
                   onSubmit={handleSubmit(onSubmit)}
                 >
                   <div className="row ">

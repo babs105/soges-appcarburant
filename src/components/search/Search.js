@@ -6,7 +6,7 @@ function Search({ findKey, setFindKey }) {
       {/* <label>Rechercher</label> */}
       <div className=" d-flex  align-items-center">
         <i
-          className="fa fa-search p-2   border bg-light text-primary  "
+          className="fa fa-search p-2   border bg-light text-info  "
           style={{
             fontSize: "20px",
           }}

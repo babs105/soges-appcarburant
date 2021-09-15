@@ -17,7 +17,7 @@ function ForageList() {
   const [pagination, setPagination] = useState({
     data: [],
     offset: 0,
-    numberPerPage: 10,
+    numberPerPage: 12,
     pageCount: 0,
     currentData: [],
   });
@@ -65,7 +65,7 @@ function ForageList() {
               <Search findKey={findKey} setFindKey={setFindKey} />
             </div>
             <div className="">
-              <div className="table-responsive table-sm ">
+              {/* <div className="table-responsive table-sm ">
                 <table className="table table-bordered table-striped ">
                   <thead className="thead-light">
                     <tr className="text-sm">
@@ -111,7 +111,7 @@ function ForageList() {
                                 aria-haspopup="true"
                                 aria-expanded="false"
                               >
-                                {/* Opérations */}
+                             
                               </span>
                               <div
                                 class="dropdown-menu text-center"
@@ -172,9 +172,106 @@ function ForageList() {
                     )}
                   </tbody>
                 </table>
+              </div> */}
+              <div className="row">
+                {pagination.currentData &&
+                  pagination.currentData.map((forage, index) => (
+                    <div key={forage.nomForage} className="col col-sm-4">
+                      <div class="card shadow mb-2 ">
+                        <div class="card-body bg-c-light ">
+                          <span class="card-title h5"> {forage.nomForage}</span>
+                          {user.role === "Admin" && (
+                            <Link
+                              className=" my-link text-success float-right "
+                              to={{
+                                pathname: "/forage/edit-forage",
+                                state: forage,
+                              }}
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              title="Editer "
+                            >
+                              <i className="fa fa-edit "></i>
+                            </Link>
+                          )}
+                          <h5 class="card-title">
+                            {`Stock :  ${forage.quantiteStock} L`}
+                          </h5>
+                          {/* <p class="card-text">Editer les rapports</p> */}
+                          <div class="dropdown mt-5">
+                            <span
+                              style={{ cursor: "pointer" }}
+                              className="text-success  p-1  border rounded  "
+                              id="dropdownMenu2"
+                              data-toggle="dropdown"
+                              aria-haspopup="true"
+                              aria-expanded="false"
+                            >
+                              Actions{" "}
+                              <i
+                                className="fa fa-angle-down"
+                                style={{ fontSize: "1.5rem" }}
+                              ></i>
+                            </span>
+                            <div
+                              class="dropdown-menu text-center"
+                              aria-labelledby="dropdownMenu2"
+                            >
+                              {/* {user.role === "Admin" && (
+                                <Link
+                                  className="dropdown-item my-link"
+                                  to={{
+                                    pathname: "/forage/edit-forage",
+                                    state: forage,
+                                  }}
+                                >
+                                  <i className="fa fa-edit"></i>
+                                </Link>
+                              )} */}
+                              <Link
+                                className="dropdown-item "
+                                style={{ textDecoration: "none" }}
+                                to={{
+                                  pathname: "",
+                                  state: forage,
+                                }}
+                              >
+                                Approvisionner Forage
+                              </Link>
+                              <Link
+                                className="dropdown-item "
+                                style={{ textDecoration: "none" }}
+                                to={{
+                                  pathname: "/forage/ravitailler-groupe",
+                                  state: forage,
+                                }}
+                              >
+                                Ravitailler Groupe
+                              </Link>
+                            </div>
+                            {`${forage.quantiteStock} ` < 100 ? (
+                              <span
+                                className=" text-danger text-center float-right"
+                                style={{ width: "5%" }}
+                              >
+                                <i
+                                  style={{ fontSize: 20 }}
+                                  className="fa fa-bell"
+                                ></i>
+                              </span>
+                            ) : (
+                              <span className="  " style={{ width: "5%" }}>
+                                {" "}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
               </div>
 
-              <div className="">
+              <div className="mt-5">
                 <ReactPaginate
                   previousLabel={"Précedent "}
                   nextLabel={"Suivant"}

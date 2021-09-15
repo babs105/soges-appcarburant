@@ -65,7 +65,7 @@ function CuvePrincipaleList() {
                 </h6>
               </div>
               <div className="">
-                <div className="table-responsive table-sm ">
+                {/* <div className="table-responsive table-sm ">
                   <table className="table table-bordered table-striped ">
                     <thead className="thead-light">
                       <tr>
@@ -150,9 +150,97 @@ function CuvePrincipaleList() {
                       )}
                     </tbody>
                   </table>
+                </div> */}
+                <div className="row">
+                  {pagination.currentData &&
+                    pagination.currentData.map((cuve, index) => (
+                      <div key={cuve.id} className="col col-sm-4">
+                        <div class="card mb-2 shadow ">
+                          <div class="card-body bg-c-light ">
+                            <span class="card-title h5">{cuve.cuveName}</span>
+                            {user.role === "Admin" && (
+                              <Link
+                                className=" my-link float-right text-success"
+                                to={{
+                                  pathname: "/cuve-principale/edit",
+                                  state: cuve,
+                                }}
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title="Editer "
+                              >
+                                <i className="fa fa-edit"></i>
+                              </Link>
+                            )}
+                            <h6 class="card-title">
+                              {`${cuve.quantiteActuelle} L`}
+                            </h6>
+                            {/* <p class="card-text">Editer les rapports</p> */}
+                            <div class="dropdown mt-5">
+                              <span
+                                style={{ cursor: "pointer" }}
+                                class="text-success p-1 border rounded"
+                                id="dropdownMenu2"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                              >
+                                Actions{" "}
+                                <i
+                                  className="fa fa-angle-down"
+                                  style={{ fontSize: "1.5rem" }}
+                                >
+                                  {" "}
+                                </i>
+                              </span>
+                              <div
+                                class="dropdown-menu text-center"
+                                aria-labelledby="dropdownMenu2"
+                              >
+                                {/* {user.role === "Admin" && (
+                                  <Link
+                                    className="dropdown-item my-link"
+                                    to={{
+                                      pathname: "/cuve-principale/edit",
+                                      state: cuve,
+                                    }}
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title="Editer "
+                                  >
+                                    Modifier Cuve Principale
+                                  </Link>
+                                )} */}
+                                <Link
+                                  className="dropdown-item "
+                                  style={{ textDecoration: "none" }}
+                                  to={{
+                                    pathname: "/cuve-principale/appoint",
+                                    state: cuve,
+                                  }}
+                                >
+                                  Remplir Cuve Principale
+                                </Link>
+                                <Link
+                                  className="dropdown-item "
+                                  style={{ textDecoration: "none" }}
+                                  to={{
+                                    pathname:
+                                      "/cuve-principale/ravitailler-cuve-mobile",
+                                    state: cuve,
+                                  }}
+                                >
+                                  Ravitailler Cuve Mobile
+                                </Link>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                 </div>
 
-                <div className="">
+                <div className="mt-5">
                   <ReactPaginate
                     previousLabel={"Précedent "}
                     nextLabel={"Suivant"}

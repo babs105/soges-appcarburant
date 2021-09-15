@@ -65,7 +65,7 @@ function VehiculeList() {
               <Search findKey={findKey} setFindKey={setFindKey} />
             </div>
             <div className="">
-              <div className="table-responsive table-sm ">
+              {/* <div className="table-responsive table-sm ">
                 <table className="table table-bordered table-striped ">
                   <thead className="thead-light">
                     <tr>
@@ -73,7 +73,7 @@ function VehiculeList() {
                       <th className="align-middle text-center">STATUT</th>
                       <th className="align-middle text-center">CATEGORIE</th>
                       <th className="align-middle text-center">KILOMETRAGE</th>
-                      {/* <th>DATE</th> */}
+                   
                       <th className="align-middle text-center">ACTIONS</th>
                     </tr>
                   </thead>
@@ -111,7 +111,7 @@ function VehiculeList() {
                                 aria-haspopup="true"
                                 aria-expanded="false"
                               >
-                                {/* Opérations */}
+                              
                               </span>
                               <div
                                 class="dropdown-menu text-center"
@@ -128,26 +128,7 @@ function VehiculeList() {
                                     Editer Véhicule
                                   </Link>
                                 )}
-                                {/* <Link
-                                  className="dropdown-item "
-                                  style={{ textDecoration: "none" }}
-                                  to={{
-                                    pathname: "",
-                                    state: vehicule,
-                                  }}
-                                >
-                                  Approvisionner Forage
-                                </Link> */}
-                                {/* <Link
-                                  className="dropdown-item "
-                                  style={{ textDecoration: "none" }}
-                                  to={{
-                                    pathname: "/forage/ravitailler-groupe",
-                                    state: vehicule,
-                                  }}
-                                >
-                                  Ravitailler Groupe
-                                </Link> */}
+                              
                               </div>
                             </div>
                           </td>
@@ -156,9 +137,67 @@ function VehiculeList() {
                     )}
                   </tbody>
                 </table>
+              </div> */}
+              <div className="row">
+                {pagination.currentData &&
+                  pagination.currentData.map((vehicule, index) => (
+                    <div key={vehicule.id} className="col col-sm-4">
+                      <div class="card shadow mb-2 ">
+                        <div class="card-body bg-c-light ">
+                          <span class="card-title h5">
+                            {" "}
+                            {vehicule.immatricule}
+                          </span>
+                          {user.role === "Admin" && (
+                            <Link
+                              className=" my-link text-success float-right "
+                              to={{
+                                pathname: "/vehicule/edit-vehicule",
+                                state: vehicule,
+                              }}
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              title="Editer "
+                            >
+                              <i className="fa fa-edit "></i>
+                            </Link>
+                          )}
+                          <h6 class="card-title">
+                            kilometrage : {vehicule.kilometrageCurrent}
+                          </h6>
+                          <h6 class="card-title">
+                            Catégorie : {vehicule.categorie}
+                          </h6>
+                          <h6 class="card-title">Statut : {vehicule.statut}</h6>
+                          {/* <div class="dropdown mt-5">
+                            <span
+                              style={{ cursor: "pointer" }}
+                              className="text-success  p-1  border rounded  "
+                              id="dropdownMenu2"
+                              data-toggle="dropdown"
+                              aria-haspopup="true"
+                              aria-expanded="false"
+                            > */}
+                          {/* Actions{" "}
+                              <i
+                                className="fa fa-angle-down"
+                                style={{ fontSize: "1.5rem" }}
+                              ></i> */}
+                          {/* </span>
+                            <div
+                              class="dropdown-menu text-center"
+                              aria-labelledby="dropdownMenu2"
+                            >
+                         
+                            </div>
+                          </div> */}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
               </div>
 
-              <div className="">
+              <div className="mt-5">
                 <ReactPaginate
                   previousLabel={"Précedent "}
                   nextLabel={"Suivant"}

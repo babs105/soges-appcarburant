@@ -179,9 +179,9 @@ function CuveList() {
   };
 
   return (
-    <div className="row w-100 mx-0">
+    <div className="row w-100 mx-0 ">
       <MenuCuveMobile />
-      <div className="col-12 col-lg-10 mt-4">
+      <div className="col-12 col-lg-10 mt-4 ">
         <div className="tabs ">
           <ul className="nav nav-tabs">
             <li className="nav-item ">
@@ -196,7 +196,7 @@ function CuveList() {
           </ul>
         </div>
 
-        <div className=" card mt-2">
+        <div className=" card mt-2 ">
           <div>
             {/* <Link to="/cuve" className="my-link p-2 " style={{ width: "8rem" }}>
               <i className="fa fa-arrow-left mr-1"></i>
@@ -220,20 +220,20 @@ function CuveList() {
 
                 <button
                   onClick={generatePDF}
-                  className=" mr-2 btn btn-sm btn-outline-primary float-right  shadow-none my-1"
+                  className=" mr-2 btn btn-sm btn-outline-info float-right  shadow-none my-1"
                 >
                   <i className="fa fa-upload  mr-1"> </i>Export PDF
                 </button>
               </>
             ) : null}
           </div>
-          <div className="card-body pt-0">
+          <div className="card-body pt-0 ">
             <div className="card-title">
               <Search findKey={findKey} setFindKey={setFindKey} />
             </div>
 
             <div className="">
-              <div className="table-responsive table-sm ">
+              {/* <div className="table-responsive table-sm ">
                 <table
                   id="my-table"
                   className="table table-bordered table-striped "
@@ -271,9 +271,7 @@ function CuveList() {
                                 data-toggle="dropdown"
                                 aria-haspopup="true"
                                 aria-expanded="false"
-                              >
-                                {/* Opérations */}
-                              </span>
+                              ></span>
                               <div
                                 class="dropdown-menu text-center"
                                 aria-labelledby="dropdownMenu2"
@@ -317,9 +315,92 @@ function CuveList() {
                     )}
                   </tbody>
                 </table>
+              </div> */}
+              <div className="row">
+                {pagination.currentData &&
+                  pagination.currentData.map((cuve, index) => (
+                    <div key={cuve.id} className="col col-sm-4">
+                      <div class="card mb-2 shadow ">
+                        <div class="card-body bg-c-light ">
+                          <span class="card-title h5">{cuve.cuveName}</span>
+                          {user.role === "Admin" && (
+                            <Link
+                              className="text-success float-right my-link"
+                              to={{
+                                pathname: "/cuve/edit-cuve",
+                                state: cuve,
+                              }}
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              title="Editer "
+                            >
+                              <i className="fa fa-pencil"></i>
+                            </Link>
+                          )}
+                          <h6 class="card-title">
+                            {`${cuve.quantityCurrentCuve} L`}
+                          </h6>
+                          {/* <p class="card-text">Editer les rapports</p> */}
+                          <div class="dropdown mt-5">
+                            <span
+                              style={{ cursor: "pointer" }}
+                              class="text-success p-1  border rounded"
+                              id="dropdownMenu2"
+                              data-toggle="dropdown"
+                              aria-haspopup="true"
+                              aria-expanded="false"
+                            >
+                              Actions{" "}
+                              <i
+                                className="fa  fa-angle-down"
+                                style={{ fontSize: "1.5rem" }}
+                              ></i>
+                            </span>
+
+                            <div
+                              class="dropdown-menu text-center"
+                              aria-labelledby="dropdownMenu2"
+                            >
+                              {/* {user.role === "Admin" && (
+                                <Link
+                                  className="dropdown-item my-link"
+                                  to={{
+                                    pathname: "/cuve/edit-cuve",
+                                    state: cuve,
+                                  }}
+                                >
+                                  Modifier Cuve Mobile
+                                </Link>
+                              )} */}
+                              <Link
+                                className="dropdown-item "
+                                style={{ textDecoration: "none" }}
+                                to={{
+                                  pathname: "/cuve/ravitailler-forage",
+                                  state: cuve,
+                                }}
+                              >
+                                Approvisionner Forage
+                              </Link>
+                              <Link
+                                className="dropdown-item "
+                                style={{ textDecoration: "none" }}
+                                to={{
+                                  pathname: "/cuve/ravitailler-vehicule",
+                                  state: cuve,
+                                }}
+                              >
+                                Ravitailler Véhicule
+                              </Link>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
               </div>
 
-              <div className="">
+              <div className=" mt-5">
                 <ReactPaginate
                   previousLabel={"Précedent "}
                   nextLabel={"Suivant"}

@@ -19,6 +19,7 @@ function RavitaillerVehicule({ history }) {
   const { user } = useContext(UserContext);
 
   const validationRavitaillement = Yup.object().shape({
+    cuveName: Yup.string().required("Cuve Mobile est obligatoire"),
     immatricule: Yup.string().required("immatricule est obligatoire"),
 
     dateRavitaillement: Yup.string().required(
@@ -107,7 +108,6 @@ function RavitaillerVehicule({ history }) {
                           ref={register}
                           type="text"
                           name="cuveName"
-                          placeholder="Cuve"
                         >
                           {cuves.map((cuve) => (
                             <option key={cuve.id} value={cuve.cuveName}>
@@ -132,7 +132,6 @@ function RavitaillerVehicule({ history }) {
                           ref={register}
                           type="text"
                           name="immatricule"
-                          placeholder="immatricule"
                         >
                           {vehicules.map((vehicule) => (
                             <option
@@ -160,7 +159,6 @@ function RavitaillerVehicule({ history }) {
                               : "form-control"
                           }
                           ref={register}
-                          type="text"
                           name="kilometrageCurrent"
                           placeholder="Compteur kilomètrage"
                         />
@@ -179,7 +177,6 @@ function RavitaillerVehicule({ history }) {
                               : "form-control"
                           }
                           ref={register}
-                          type="text"
                           name="quantityRavitaillement"
                           placeholder="Quantité ravitaillée "
                         />
@@ -252,20 +249,20 @@ function RavitaillerVehicule({ history }) {
                       </div>
                     </div>
                   </div>
+                  <div className="mx-auto col-12  mt-2 py-2">
+                    <button
+                      className="btn btn-success  btn-block "
+                      type="submit"
+                      id="mybutton"
+                      disabled={formState.isSubmitting}
+                    >
+                      {logging && (
+                        <span className="spinner-border spinner-border-sm mr-1 "></span>
+                      )}
+                      Enregistrer
+                    </button>
+                  </div>
                 </form>
-              </div>
-              <div className="mx-auto col-12 col-sm-6 mt-2 py-2">
-                <button
-                  className="btn btn-success  btn-block form-group"
-                  type="submit"
-                  id="mybutton"
-                  disabled={formState.isSubmitting}
-                >
-                  {logging && (
-                    <span className="spinner-border spinner-border-sm mr-1 "></span>
-                  )}
-                  Enregistrer
-                </button>
               </div>
             </div>
           </div>

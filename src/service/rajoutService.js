@@ -3,8 +3,10 @@ import axios from "../axios/axios";
 export const rajoutService = {
   rajouterCuve,
   getAllRajout,
-
+  getAllRajoutByMonth,
   updateRajout,
+  getAllRajoutCuvePrincipaleBetweenDate,
+  getAllRajoutCuvePrincipaleByCuveName,
 };
 function rajouterCuve(rajout) {
   return axios
@@ -15,6 +17,26 @@ function rajouterCuve(rajout) {
 function getAllRajout() {
   return axios
     .get("/rajout/getAllRajout")
+    .then(handleRegisterResponse)
+    .then((rajouts) => rajouts);
+}
+function getAllRajoutCuvePrincipaleBetweenDate(date) {
+  return axios
+    .post("/rajout/getAllAppointCuvePrincipaleBetweenDate", date)
+    .then(handleRegisterResponse)
+    .then((rajouts) => rajouts);
+}
+
+function getAllRajoutCuvePrincipaleByCuveName(cuveName) {
+  return axios
+    .get("/rajout/getAllRajoutByCuveName/" + cuveName)
+    .then(handleRegisterResponse)
+    .then((rajouts) => rajouts);
+}
+
+function getAllRajoutByMonth(month) {
+  return axios
+    .get("/rajout/getAllRajoutByMonth/" + month)
     .then(handleRegisterResponse)
     .then((rajouts) => rajouts);
 }

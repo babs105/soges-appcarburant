@@ -62,6 +62,7 @@ export const CuvePrincipaleProvider = (props) => {
         console.log(e);
       });
   };
+
   const updateCuvePrincipale = (data) => {
     setLogging(true);
     console.log(data);
