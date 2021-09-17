@@ -5,16 +5,14 @@ import { cuveService } from "../service/cuveService";
 import { TableListContext } from "./TableListContext";
 import { StationContext } from "./StationContext";
 import { useHistory } from "react-router-dom";
+import { ravitaillementCuveMobileService } from "../service/ravitaillerCuveMobileService";
 
 export const RapportContext = createContext();
 
 export const RapportProvider = (props) => {
   const history = useHistory();
-  const [rajouts, setRajouts] = useState([]);
-
-  const [rajoutsByMonth, setRajoutsByMonth] = useState([]);
-  const [rajoutsBetweenDate, setRajoutsBetweenDate] = useState([]);
-  const [rajoutsByCuveName, setRajoutsByCuveName] = useState([]);
+  const [rapportCP, setRapportCP] = useState([]);
+  const [rapportRaviCP, setRapportRaviCP] = useState([]);
 
   const { setLogging } = useContext(TableListContext);
 
@@ -29,7 +27,20 @@ export const RapportProvider = (props) => {
       .then((res) => {
         setLogging(false);
         console.log(res);
-        setRajouts(res);
+        setRapportCP(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  const getAllRaviCuvePrincipale = () => {
+    setLogging(true);
+    ravitaillementCuveMobileService
+      .getAllRavitaillementCuveMobile()
+      .then((res) => {
+        setLogging(false);
+        console.log(res);
+        setRapportRaviCP(res);
       })
       .catch((e) => {
         console.log(e);
@@ -73,8 +84,8 @@ export const RapportProvider = (props) => {
           keepAfterRouteChange: true,
         });
         console.log(res);
-        setRajouts(
-          rajouts.map((rajout) => (rajout.id === res.id ? res : rajout))
+        setRapportCP(
+          rapportCP.map((rajout) => (rajout.id === res.id ? res : rajout))
         );
       })
       .catch((e) => {
@@ -94,7 +105,7 @@ export const RapportProvider = (props) => {
           keepAfterRouteChange: true,
         });
         console.log(res);
-        setRajouts([...rajouts, res]);
+        setRapportCP([...rapportCP, res]);
         history.push("/cuve-principale");
       })
       .catch((e) => {
@@ -110,7 +121,8 @@ export const RapportProvider = (props) => {
       .then((res) => {
         setLogging(false);
         console.log(res);
-        setRajoutsByMonth(res);
+        // setRajoutsByMonth(res);
+        setRapportCP(res);
       })
       .catch((e) => {
         console.log(e);
@@ -124,7 +136,8 @@ export const RapportProvider = (props) => {
       .then((res) => {
         setLogging(false);
         console.log(res);
-        setRajoutsByCuveName(res);
+        // setRajoutsByCuveName(res);
+        setRapportCP(res);
       })
       .catch((e) => {
         console.log(e);
@@ -137,7 +150,37 @@ export const RapportProvider = (props) => {
       .then((res) => {
         setLogging(false);
         console.log(res);
-        setRajoutsBetweenDate(res);
+        // setRajoutsBetweenDate(res);
+        setRapportCP(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  const getAllRajoutCuvePrincipaleByCuveNameAndMonth = (data) => {
+    setLogging(true);
+    rajoutService
+      .getAllRajoutCuvePrincipaleByCuveNameAndMonth(data)
+      .then((res) => {
+        setLogging(false);
+        console.log(res);
+        // setRajoutsBetweenDate(res);
+        setRapportCP(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const getAllRajoutCuvePrincipaleByCuveNameBetweenDate = (data) => {
+    setLogging(true);
+    rajoutService
+      .getAllRajoutCuvePrincipaleByCuveNameBetweenDate(data)
+      .then((res) => {
+        setLogging(false);
+        console.log(res);
+        // setRajoutsBetweenDate(res);
+        setRapportCP(res);
       })
       .catch((e) => {
         console.log(e);
@@ -146,14 +189,17 @@ export const RapportProvider = (props) => {
   return (
     <RapportContext.Provider
       value={{
-        rajouts,
+        rapportCP,
+        setRapportCP,
         getRajoutList,
         getRajoutCuvePrincipaleByMonth,
-        rajoutsByMonth,
-        rajoutsBetweenDate,
         getAllRajoutCuvePrincipaleBetweenDate,
-        rajoutsByCuveName,
         getAllRajoutCuvePrincipaleByCuveName,
+        getAllRajoutCuvePrincipaleByCuveNameAndMonth,
+        getAllRajoutCuvePrincipaleByCuveNameBetweenDate,
+        rapportRaviCP,
+        setRapportRaviCP,
+        getAllRaviCuvePrincipale,
       }}
     >
       {props.children}

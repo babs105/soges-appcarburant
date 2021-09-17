@@ -1,19 +1,13 @@
 import React, { useContext } from "react";
-import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
-import { StationContext } from "../../context/StationContext";
-import { TableListContext } from "../../context/TableListContext";
-import { CuveContext } from "../../context/CuveContext";
-import MenuRapport from "./MenuRapport";
+
 // import Rapport from "./Rapporting";
 
 function Rapport({ history }) {
   return (
     <div className="row w-100 mx-0">
       {/* <MenuRapport /> */}
-      <div className="col col-lg-10 mt-4 mx-auto">
+      <div className="col col-lg-10 mt-2 mx-auto">
         <div className="tabs ">
           <ul className="nav nav-tabs">
             <li className="nav-item ">
@@ -30,7 +24,7 @@ function Rapport({ history }) {
         </div>
         <div className="card mt-2 ">
           <div className="card-title">
-            <h6 className="text-center mt-4"> GENERER LES RAPPORTS</h6>
+            <h6 className="text-center mt-4 h4"> GENERER LES RAPPORTS</h6>
           </div>
           <div className="card-body">
             <div className="row">
@@ -38,13 +32,18 @@ function Rapport({ history }) {
                 <div class="card mb-2 shadow">
                   <div class="card-body bg-c-light ">
                     <h5 class="card-title">Cuve Principale</h5>
+                    <div className="d-flex flex-column text-primary">
+                      <Link to="/rapports/cuve-principale/rajouts" className="">
+                        Les Rajouts
+                      </Link>
+                      <Link
+                        to="/rapports/cuve-principale/ravitaillements"
+                        className=""
+                      >
+                        Les Ravitaillments Cuve Mobile
+                      </Link>
+                    </div>
                     {/* <p class="card-text">Editer les rapports</p> */}
-                    <Link
-                      to="/rapports/cuve-principale"
-                      class="btn btn-outline-success"
-                    >
-                      Editer les rapports
-                    </Link>
                   </div>
                 </div>
               </div>

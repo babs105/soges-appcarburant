@@ -6,7 +6,8 @@ import { RapportProvider } from "../../context/RapportContext";
 import { RavitaillementProvider } from "../../context/RavitaillementVehiculeContext";
 import { VehiculeProvider } from "../../context/VehiculeContext";
 import Rapport from "./Rapport";
-import RapportCuvePrincipale from "./RapportCuvePrincipale";
+import RapportCPRajouts from "./RapportCPRajouts";
+import RapportCPRavitaillementCM from "./RapportCPRavitaillementCM";
 
 function RapportModule() {
   return (
@@ -22,8 +23,13 @@ function RapportModule() {
                 <Switch>
                   <Route
                     exact
-                    path="/rapports/cuve-principale"
-                    component={RapportCuvePrincipale}
+                    path="/rapports/cuve-principale/rajouts"
+                    component={RapportCPRajouts}
+                  />
+                  <Route
+                    exact
+                    path="/rapports/cuve-principale/ravitaillements"
+                    component={RapportCPRavitaillementCM}
                   />
                 </Switch>
               </VehiculeProvider>

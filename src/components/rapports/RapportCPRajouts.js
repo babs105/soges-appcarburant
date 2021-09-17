@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
@@ -10,40 +10,29 @@ import moment from "moment";
 import "moment/locale/fr";
 import MenuRapport from "./MenuRapport";
 import { RapportContext } from "../../context/RapportContext";
-import RapportAllRajoutAllCp from "./RapportAllRajoutAllCp";
-import RapportAllRajoutAllCpByMonth from "./RapportAllRajoutAllCpByMonth";
-import AllRajoutCuvePrincipaleBetweenDate from "./AllRajoutCuvePrincipaleBetweenDate";
-import AllRajoutForOneCp from "./AllRajoutForOneCp";
+import TableRajoutCPResult from "./TableRajoutCPResult";
 
-function RapportCuvePrincipale({ history }) {
+function RapportCPRajouts({ history }) {
   const { cuvesPrincipale } = useContext(CuvePrincipaleContext);
   const {
-    rajouts,
+    rapportCP,
+    setRapportCP,
     getRajoutList,
     getRajoutCuvePrincipaleByMonth,
-    rajoutsByMonth,
     getAllRajoutCuvePrincipaleBetweenDate,
     getAllRajoutCuvePrincipaleByCuveName,
-    rajoutsBetweenDate,
-    rajoutsByCuveName,
+    getAllRajoutCuvePrincipaleByCuveNameAndMonth,
+    getAllRajoutCuvePrincipaleByCuveNameBetweenDate,
   } = useContext(RapportContext);
   const { logging, search } = useContext(TableListContext);
   const { user } = useContext(UserContext);
-  const [showRapportAllRajoutAllCp, setShowRapportAllRajoutAllCp] =
-    useState(false);
-  const [
-    showRapportAllRajoutAllCpByMonth,
-    setShowRapportAllRajoutAllCpByMonth,
-  ] = useState(false);
-  const [showAllRajoutAllCpBetweenDate, setShowAllRajoutAllCpBetweenDate] =
-    useState(false);
-  const [showAllRajoutForOneCp, setShowAllRajoutForOneCp] = useState(false);
 
   const [title, setTitle] = useState("");
-  //const urLReport = "https://gcarburant.herokuapp.com/operationsCuve";
-  // const urLReport = "http://localhost:8080/operationsCuve";
 
-  // moment.locale("fr");
+  useEffect(() => {
+    setRapportCP([]);
+  }, []);
+
   // const months = moment.months();
   const months = {
     "01": "janvier",
@@ -113,13 +102,11 @@ function RapportCuvePrincipale({ history }) {
         "DD/MM/YYYY HH:mm"
       );
     }
-    console.log(data);
+
     // let cuve = getValues("cuveName");
     if (data.typeRapport === "allRajoutAllCp" && data.periode === "lesMois") {
       setTitle("Les Rajouts Cuves Principales  ");
       getRajoutList();
-      setShowRapportAllRajoutAllCp(true);
-      setShowRapportAllRajoutAllCpByMonth(false);
     }
     if (
       data.typeRapport === "allRajoutAllCp" &&
@@ -127,13 +114,9 @@ function RapportCuvePrincipale({ history }) {
       data.periode === "Mois"
     ) {
       setTitle(
-        `Les Rajouts Cuves Principales du Mois:${months[
-          data.mois
-        ].toUpperCase()}`
+        `Les Rajouts Cuves Principales Mois ${months[data.mois].toUpperCase()}`
       );
       getRajoutCuvePrincipaleByMonth(data.mois);
-      setShowRapportAllRajoutAllCp(false);
-      setShowRapportAllRajoutAllCpByMonth(true);
     }
     if (
       data.typeRapport === "allRajoutAllCp" &&
@@ -146,9 +129,6 @@ function RapportCuvePrincipale({ history }) {
         `Les Rajouts Cuves Principales du ${data.startDateTime} au ${data.endDateTime} `
       );
       getAllRajoutCuvePrincipaleBetweenDate(date);
-      setShowRapportAllRajoutAllCp(false);
-      setShowRapportAllRajoutAllCpByMonth(false);
-      setShowAllRajoutAllCpBetweenDate(true);
     }
     if (
       data.typeRapport === "allRajoutOneCp" &&
@@ -157,30 +137,54 @@ function RapportCuvePrincipale({ history }) {
     ) {
       setTitle(`Les Rajouts de la Cuve Principale ${data.cuveName}`);
       getAllRajoutCuvePrincipaleByCuveName(data.cuveName);
-      setShowRapportAllRajoutAllCp(false);
-      setShowRapportAllRajoutAllCpByMonth(false);
-      setShowAllRajoutAllCpBetweenDate(false);
-      setShowAllRajoutForOneCp(true);
       console.log(data.cuveName);
+    }
+    if (
+      data.typeRapport === "allRajoutOneCp" &&
+      data.cuveName !== "" &&
+      data.periode === "Mois" &&
+      data.mois !== ""
+    ) {
+      let req = { cuveName: data.cuveName, month: data.mois };
+      setTitle(
+        `Les Rajouts de la Cuve Principale ${data.cuveName} mois de ${months[
+          data.mois
+        ].toUpperCase()}`
+      );
+      getAllRajoutCuvePrincipaleByCuveNameAndMonth(req);
+      console.log(data.cuveName);
+    }
+    if (
+      data.typeRapport === "allRajoutOneCp" &&
+      data.cuveName !== "" &&
+      data.periode === "Plage" &&
+      data.startDateTime !== "" &&
+      data.endDateTime !== ""
+    ) {
+      let req = {
+        cuveName: data.cuveName,
+        startDateTime: data.startDateTime,
+        endDateTime: data.endDateTime,
+      };
+      setTitle(
+        `Les Rajouts Cuve Principale ${data.cuveName} du ${data.startDateTime} au ${data.endDateTime} `
+      );
+      console.log(req);
+      getAllRajoutCuvePrincipaleByCuveNameBetweenDate(req);
     }
   };
   let i = 1;
   return (
     <div className="row w-100 mx-0">
-      <MenuRapport />
-      <div className="col col-lg-10 mt-4">
+      {/* <MenuRapport /> */}
+      <div className="col col-lg-10 mt-2 mx-auto">
         <div className="tabs ">
           <ul className="nav nav-tabs">
             <li className="nav-item ">
               <a className="nav-link active " data-target="#users" href="#/">
-                Rapports
+                Rapports Rajouts Cuve Principale
               </a>
             </li>
-            {/* <li className="nav-item">
-        <a className="nav-link active" data-target="#commandes">
-          Commande
-        </a>
-      </li> */}
           </ul>
         </div>
         <div className="card mt-2">
@@ -191,7 +195,7 @@ function RapportCuvePrincipale({ history }) {
                   <i className="fa fa-fw fa-arrow-left"></i>
                   Retour
                 </Link>
-                {/* <div className="h3"> Ajouter Véhicule</div> */}
+
                 <div className="h3"> </div>
               </div>
 
@@ -221,9 +225,6 @@ function RapportCuvePrincipale({ history }) {
                           <option value="allRajoutOneCp">
                             Les Rajouts d'une Cuve Principale
                           </option>
-                          {/* <option  value="Ravitaillement">
-                          Ravitaillement
-                            </option> */}
                         </select>
                         <div className="invalid-feedback">
                           {errors.typeRapport?.message}
@@ -402,41 +403,14 @@ function RapportCuvePrincipale({ history }) {
             </div>
           </div>
         </div>
-        {showRapportAllRajoutAllCp && (
-          <RapportAllRajoutAllCp
-            logging={logging}
-            rajouts={rajouts}
-            search={search}
-            title={title}
-          />
-        )}
-        {showRapportAllRajoutAllCpByMonth && (
-          <RapportAllRajoutAllCpByMonth
-            logging={logging}
-            rajoutsByMonth={rajoutsByMonth}
-            search={search}
-            title={title}
-          />
-        )}
-        {showAllRajoutAllCpBetweenDate && (
-          <AllRajoutCuvePrincipaleBetweenDate
-            rajoutsBetweenDate={rajoutsBetweenDate}
-            logging={logging}
-            search={search}
-            title={title}
-          />
-        )}
-        {showAllRajoutForOneCp && (
-          <AllRajoutForOneCp
-            rajoutsByCuveName={rajoutsByCuveName}
-            logging={logging}
-            search={search}
-            title={title}
-          />
-        )}
+        <TableRajoutCPResult
+          logging={logging}
+          rapportCP={rapportCP}
+          search={search}
+          title={title}
+        />
       </div>
     </div>
   );
 }
-
-export default RapportCuvePrincipale;
+export default RapportCPRajouts;

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 
 import ReactPaginate from "react-paginate";
-
-function AllRajoutForOneCp({ rajoutsByCuveName, logging, search, title }) {
+import ExportExcelCP from "./ExportExcelCP";
+function TableRajoutCPResult({ rapportCP, logging, search, title }) {
+  const [exporData, setExportData] = useState([]);
   const [pagination, setPagination] = useState({
     data: [],
     offset: 0,
@@ -10,12 +11,14 @@ function AllRajoutForOneCp({ rajoutsByCuveName, logging, search, title }) {
     pageCount: 0,
     currentData: [],
   });
-  useEffect(() => {
-    console.log("in all rajouy cuve principale");
-    console.log("les rajouts", rajoutsByCuveName);
 
-    const newData = search([...rajoutsByCuveName]);
-    console.log(" liste cuve principale", rajoutsByCuveName);
+  useEffect(() => {
+    console.log("in all ravi cuve principale");
+    console.log("les ravi", rapportCP);
+
+    const newData = search([...rapportCP]);
+    setExportData(newData);
+    console.log(" liste cuve principale", rapportCP);
     setPagination((prevState) => ({
       ...prevState,
       pageCount: newData.length / prevState.numberPerPage,
@@ -24,7 +27,7 @@ function AllRajoutForOneCp({ rajoutsByCuveName, logging, search, title }) {
         pagination.offset + pagination.numberPerPage
       ),
     }));
-  }, [pagination.numberPerPage, pagination.offset, rajoutsByCuveName, search]);
+  }, [pagination.numberPerPage, pagination.offset, rapportCP, search]);
 
   const handlePageClick = (event) => {
     const selected = event.selected;
@@ -37,6 +40,7 @@ function AllRajoutForOneCp({ rajoutsByCuveName, logging, search, title }) {
         <div className="card-title text-center h6 font-weight-bold">
           {title}
         </div>
+        <ExportExcelCP exporData={exporData} title={title} />
         <div className="table">
           <div className="table-responsive table-sm">
             <table className="table table-bordered table-striped ">
@@ -114,4 +118,5 @@ function AllRajoutForOneCp({ rajoutsByCuveName, logging, search, title }) {
     </div>
   );
 }
-export default AllRajoutForOneCp;
+
+export default TableRajoutCPResult;

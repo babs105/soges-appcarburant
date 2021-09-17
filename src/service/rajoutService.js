@@ -7,6 +7,8 @@ export const rajoutService = {
   updateRajout,
   getAllRajoutCuvePrincipaleBetweenDate,
   getAllRajoutCuvePrincipaleByCuveName,
+  getAllRajoutCuvePrincipaleByCuveNameAndMonth,
+  getAllRajoutCuvePrincipaleByCuveNameBetweenDate,
 };
 function rajouterCuve(rajout) {
   return axios
@@ -23,6 +25,19 @@ function getAllRajout() {
 function getAllRajoutCuvePrincipaleBetweenDate(date) {
   return axios
     .post("/rajout/getAllAppointCuvePrincipaleBetweenDate", date)
+    .then(handleRegisterResponse)
+    .then((rajouts) => rajouts);
+}
+
+function getAllRajoutCuvePrincipaleByCuveNameAndMonth(data) {
+  return axios
+    .post("/rajout/getAllRajoutCuvePrincipaleByCuveNameAndMonth", data)
+    .then(handleRegisterResponse)
+    .then((rajouts) => rajouts);
+}
+function getAllRajoutCuvePrincipaleByCuveNameBetweenDate(data) {
+  return axios
+    .post("/rajout/getAllRajoutCuvePrincipaleByCuveNameBetweenDate", data)
     .then(handleRegisterResponse)
     .then((rajouts) => rajouts);
 }

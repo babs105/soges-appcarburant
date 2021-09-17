@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 
 import ReactPaginate from "react-paginate";
 import ExportExcelCP from "./ExportExcelCP";
-function RapportAllRajoutAllCp({ rajouts, logging, search, title }) {
+import ExportExcelRaviCP from "./ExportExcelRaviCP";
+function TableRaviCPResult({ rapportRaviCP, logging, search, title }) {
   const [exporData, setExportData] = useState([]);
   const [pagination, setPagination] = useState({
     data: [],
@@ -14,11 +15,11 @@ function RapportAllRajoutAllCp({ rajouts, logging, search, title }) {
 
   useEffect(() => {
     console.log("in all rajouy cuve principale");
-    console.log("les rajouts", rajouts);
+    console.log("les rajouts", rapportRaviCP);
 
-    const newData = search([...rajouts]);
+    const newData = search([...rapportRaviCP]);
     setExportData(newData);
-    console.log(" liste cuve principale", rajouts);
+    console.log(" liste cuve principale", rapportRaviCP);
     setPagination((prevState) => ({
       ...prevState,
       pageCount: newData.length / prevState.numberPerPage,
@@ -27,7 +28,7 @@ function RapportAllRajoutAllCp({ rajouts, logging, search, title }) {
         pagination.offset + pagination.numberPerPage
       ),
     }));
-  }, [pagination.numberPerPage, pagination.offset, rajouts, search]);
+  }, [pagination.numberPerPage, pagination.offset, rapportRaviCP, search]);
 
   const handlePageClick = (event) => {
     const selected = event.selected;
@@ -40,17 +41,16 @@ function RapportAllRajoutAllCp({ rajouts, logging, search, title }) {
         <div className="card-title text-center h6 font-weight-bold">
           {title}
         </div>
-        <ExportExcelCP exporData={exporData} title={title} />
+        <ExportExcelRaviCP exporData={exporData} title={title} />
         <div className="table">
           <div className="table-responsive table-sm">
             <table className="table table-bordered table-striped ">
               <thead className="thead-light">
                 <tr>
                   <th>DATE</th>
-                  <th>QUANTITE RAJOUT</th>
-                  <th>CUVE</th>
-                  <th>STATION</th>
-                  {/* <th>ACTIONS</th> */}
+                  <th>CUVE PRINCIPALE</th>
+                  <th>CUVE MOBILE</th>
+                  <th>QUANTITE</th>
                 </tr>
               </thead>
               <tbody>
@@ -63,34 +63,21 @@ function RapportAllRajoutAllCp({ rajouts, logging, search, title }) {
                   </tr>
                 ) : (
                   pagination.currentData &&
-                  pagination.currentData.map((rajout, index) => (
-                    <tr key={rajout.id}>
+                  pagination.currentData.map((ravitaillement, index) => (
+                    <tr key={ravitaillement.id}>
                       <td className="text-nowrap align-middle">
-                        {rajout.dateRajout}
+                        {ravitaillement.dateRavitaillementCuveMobile}
                       </td>
                       <td className="text-nowrap align-middle">
-                        {rajout.qteRajout}
+                        {ravitaillement.cuvePrincipale}
                       </td>
                       <td className="text-nowrap align-middle">
-                        {rajout.cuvePrincipale}
+                        {ravitaillement.cuveMobile}
                       </td>
+
                       <td className="text-nowrap align-middle">
-                        {rajout.station}
+                        {ravitaillement.quantiteRavitaillee}
                       </td>
-                      {/* <td className="text-nowrap align-middle">
-                        <Link
-                          className="my-link"
-                          to={{
-                            pathname: "/cuve-principale/edit-appoints",
-                            state: rajout,
-                          }}
-                        >
-                          <i
-                            className="fa fa-fw fa-pencil"
-                            style={{ cursor: "pointer" }}
-                          ></i>
-                        </Link>
-                      </td> */}
                     </tr>
                   ))
                 )}
@@ -119,4 +106,4 @@ function RapportAllRajoutAllCp({ rajouts, logging, search, title }) {
   );
 }
 
-export default RapportAllRajoutAllCp;
+export default TableRaviCPResult;
